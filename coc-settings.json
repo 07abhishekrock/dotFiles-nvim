@@ -1,0 +1,10 @@
+{
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
+  "eslint.enable": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.format.enable": true,
+  "javascript.suggest.autoImports": true, 
+  "typescript.suggest.autoImports": true,
+  "suggest.noselect": false
+}
