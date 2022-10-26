@@ -1,7 +1,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-function map(mode, lhs, rhs, opts)
+local function map(mode, lhs, rhs, opts)
     local options = { noremap = true }
     if opts then
         options = vim.tbl_extend("force", options, opts)
@@ -9,26 +9,36 @@ function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-function pluginMap(mode, lhs, rhs)
+local function pluginMap(mode, lhs, rhs)
   map(mode, lhs, rhs, { noremap = false })
 end
 
 map("t", "<Esc>", "<C-\\><C-n>", { silent = true })
 
-map("n", "<Leader><Left>", ":Gclog -- %<CR>")
+map("n", "<Leader><Left>", ":lua GitVersions()<CR>")
 map("n", "<Leader>x", "<C-w>s<C-w>j:terminal<CR>:resize 10<CR>")
 map("n", "<Leader>X", ":tabnew | terminal<CR>")
-map("n", "<Leader>b", "<C-^>")
+map("n", "<Leader><Leader>", "<C-^>")
+map("n", "<Leader>b", "<C-o>")
 map("n", "<C-b>", ":execute \'Fern \' . RootDirectory() . \' -reveal=%:p -drawer -toggle\'<CR>", { silent = true })
-map("n", "<Leader>ls", ":SessionManager load_session<CR>")
-map("n", "<Leader>ds", ":SessionManager delete_session<CR>")
 
 -- map("n", "rm", ':call delete(expand("%")) \| bdelete!<CR>')
 -- 
 --
-map("n", "<Leader>p", ":lua require('fzf-lua').git_files()<CR>", { silent = true })
-map("n", "<Leader>z" , ":lua require('fzf-lua').oldfiles()<CR>", { silent = true })
-map("n", "<Leader>q", ":lua toggle_qf('q')<CR>")
+map("n", "<Leader>p", ":lua require'fzf-lua'.files({ prompt='LS>>',  cwd=git_root() })<CR>", { silent = true })
+map("n", "<Leader>z" , ":lua require('fzf-lua').buffers()<CR>", { silent = true })
+map("n", "<Leader>q", ":lua toggle_qf('q')<CR>", { silent = true })
+
+map("n", "ma" ,":lua require('harpoon.mark').add_file() <CR>", { silent = true })
+
+
+vim.cmd[[
+command! -nargs=1 Goto lua require('harpoon.ui').nav_file(<args>) 
+command! -nargs=0 Gco lua require('fzf-lua').git_branches()
+autocmd FileType qf nnoremap <buffer> <CR> <CR>:lua toggle_qf('q')<CR>
+]]
+
+map("n", "ml" ,":lua require('harpoon.ui').toggle_quick_menu() <CR>", { silent = true })
 -- Plugin remaps
 
 pluginMap("n", "[y", "<plug>(YoinkRotateBack)")

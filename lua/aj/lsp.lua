@@ -1,8 +1,12 @@
+vim.lsp.set_log_level("debug")
+
+local status, nvim_lsp = pcall(require, 'lspconfig')
+if (not status) then return end
+
 local cmp = require('cmp')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local lspkind = require('lspkind')
 local luasnip = require('luasnip')
-local nvim_lsp = require('lspconfig')
 
 --
 -- Lspconfig
@@ -49,10 +53,9 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
 nvim_lsp.tsserver.setup {
   on_attach = on_attach,
+  filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
   cmd = { "typescript-language-server", "--stdio" },
   capabilities = capabilities,
   root_dir = require('lspconfig').util.root_pattern('.git'),
@@ -62,47 +65,31 @@ nvim_lsp.tsserver.setup {
   }
 }
 
-nvim_lsp.eslint.setup({
+nvim_lsp.cssls.setup({
   capabilities = capabilities,
-  flags = { debounce_text_changes = 500 },
-  on_attach = function(client, bufnr)
-
-    client.server_capabilities.document_formatting = true
-
-    if client.server_capabilities.document_formatting then
-
-      local au_lsp = vim.api.nvim_create_augroup("eslint_lsp", { clear = true })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = {"*.js", "*.jsx", "*.tsx", "*.ts", "*.json"},
-        callback = function()
-					vim.cmd('silent! :EslintFixAll')
-				end,
-        group = au_lsp,
-      })
-
-    end
-
-  end,
+  flags = { debounce_text_changes = 500 }
 })
 
+nvim_lsp.sumneko_lua.setup {
+  capabilities = capabilities,
+  on_attach = function(client, bufnr)
+    on_attach(client, bufnr)
+  end,
+  settings = {
+    Lua = {
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = { 'vim' },
+      },
 
--- local config = {
---    name = 'tsserver',
---    cmd = { "typescript-language-server", "--stdio" },
---    root_dir = vim.fs.dirname(vim.fs.find({'.git', 'pnpm-lock.yaml'}, { upward = true })[1]),
---    on_attach = on_attach,
---    capabilities = capabilities
--- }
--- vim.lsp.start(config, {
---   reuse_client = function(client, conf)
---     return (client.name == conf.name
---       and (
---         client.config.root_dir == conf.root_dir
---         or (conf.root_dir == nil and vim.startswith(api.nvim_buf_get_name(0), "/usr/lib/python"))
---       )
---     )
---   end
--- })
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false
+      },
+    },
+  },
+}
 
 
 --
@@ -175,7 +162,7 @@ end
 require('fzf-lua').setup({
   winopts = {
     preview = {
-     layout = 'vertical' 
+     layout = 'vertical'
     }
   }
 })

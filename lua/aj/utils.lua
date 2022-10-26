@@ -68,3 +68,34 @@ function open_loclist_all()
       end
   end
 end
+
+function _echo_multiline(msg)
+  for _, s in ipairs(vim.fn.split(msg, "\n")) do
+    vim.cmd("echom '" .. s:gsub("'", "''").."'")
+  end
+end
+
+function shell_error()
+  return vim.v.shell_error ~= 0
+end
+
+function info(msg)
+  vim.cmd('echohl Directory')
+  _echo_multiline(msg)
+  vim.cmd('echohl None')
+end
+
+function git_root(cwd, noerr)
+  local cmd = { "git", "rev-parse", "--show-toplevel" }
+  if cwd then
+    table.insert(cmd, 2, "-C")
+    table.insert(cmd, 3, vim.fn.expand(cwd))
+  end
+  local output = vim.fn.systemlist(cmd)
+  if shell_error() then
+    if not noerr then info(unpack(output)) end
+    return nil
+  end
+  print(output[1])
+  return output[1]
+end

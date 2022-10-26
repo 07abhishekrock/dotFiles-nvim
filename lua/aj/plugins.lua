@@ -17,11 +17,10 @@ Plug 'tpope/vim-rhubarb'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'svermeulen/vim-yoink'
 Plug 'lambdalisue/fern.vim'
-Plug 'airblade/vim-rooter'
 Plug 'shaunsingh/nord.nvim'
 Plug 'tpope/vim-commentary'
 Plug 'neovim/nvim-lspconfig'
-Plug 'onsails/lspkind-nvim' 
+Plug 'onsails/lspkind-nvim'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -41,7 +40,11 @@ Plug 'goolord/alpha-nvim'
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 Plug('pineapplegiant/spaceduck', { branch = 'main' })
 Plug 'sheerun/vim-polyglot'
-
+Plug 'ThePrimeagen/harpoon'
+Plug 'haishanh/night-owl.vim'
+Plug ('glepnir/lspsaga.nvim', {['branch'] = 'main' })
+Plug 'natecraddock/sessions.nvim'
+Plug 'vijaymarupudi/nvim-fzf'
 vim.call('plug#end')
 
 vim.cmd('colorscheme nord')
@@ -78,14 +81,18 @@ function! RootDirectory()
 
 endfunction
 
+
+if (has("termguicolors"))
+ set termguicolors
+endif
+
 let g:fern#renderer = "nerdfont"
-let g:fern#default_hidden = 1
+let g:fern#default_hidden = 0
 
 let g:airline_theme = "nord_minimal"
 
 ]]
 
-local Path = require('plenary.path')
 require('session_manager').setup({
   path_replacer = '__', -- The character to which the path separator will be replaced for session files.
   colon_replacer = '++', -- The character to which the colon symbol will be replaced for session files.
@@ -99,5 +106,14 @@ require('session_manager').setup({
   max_path_length = 80,  -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
 })
 
+-- airline customization
+
+vim.cmd[[
+  
+  let g:airline_section_x = '%y'
+  let g:airline_section_y = ''
+  let g:airline_section_z = ''
+
+]]
 
 

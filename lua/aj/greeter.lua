@@ -17,7 +17,6 @@ dashboard.section.header.val = {
 dashboard.section.buttons.val = {
     dashboard.button( "e", "  > New file" , ":ene <BAR> startinsert <CR>"),
     dashboard.button( "f", "  > Find file", ":GG <CR>"),
-    dashboard.button( "r", "  > Last Session" , ":SessionManager load_session<CR>"),
     dashboard.button( "s", "  > Settings" , ":e ~/.config/nvim/init.vim"),
     dashboard.button( "q", "  > Quit NVIM", ":qa<CR>"),
 }
