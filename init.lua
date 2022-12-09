@@ -8,6 +8,8 @@ require('aj.keymaps')
 require('aj.treesitter')
 require('aj.autocmd')
 require('aj.greeter')
+require('aj.lualine')
+require('aj.customShell')
 -- require('aj.lsp-saga')
 
 require('aj.fzf_utils.git-version')

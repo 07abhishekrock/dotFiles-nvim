@@ -33,7 +33,8 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'vim-airline/vim-airline'
+-- Plug 'vim-airline/vim-airline'
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Shatur/neovim-session-manager'
 Plug 'goolord/alpha-nvim'
@@ -45,6 +46,11 @@ Plug 'haishanh/night-owl.vim'
 Plug ('glepnir/lspsaga.nvim', {['branch'] = 'main' })
 Plug 'natecraddock/sessions.nvim'
 Plug 'vijaymarupudi/nvim-fzf'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+Plug 'windwp/nvim-ts-autotag'
+
 vim.call('plug#end')
 
 vim.cmd('colorscheme nord')
@@ -117,3 +123,5 @@ vim.cmd[[
 ]]
 
 
+--fugitive vars
+vim.cmd[[ let g:fugitive_pty = 0 ]]
