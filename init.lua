@@ -10,6 +10,7 @@ require('aj.autocmd')
 require('aj.greeter')
 require('aj.lualine')
 require('aj.customShell')
+require('aj.flutter-setup')
 -- require('aj.lsp-saga')
 
 require('aj.fzf_utils.git-version')

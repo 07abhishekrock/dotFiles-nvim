@@ -1,10 +1,12 @@
 vim.lsp.set_log_level("debug")
 
 local status, nvim_lsp = pcall(require, 'lspconfig')
-if (not status) then return end
+local cmp_status, cmp = pcall(require, 'cmp');
 
-local cmp = require('cmp')
-local cmp_nvim_lsp = require('cmp_nvim_lsp')
+if (not status) then return end
+if (not cmp_status) then return end
+
+local coq = require('coq');
 local lspkind = require('lspkind')
 local luasnip = require('luasnip')
 
@@ -29,6 +31,7 @@ local on_attach = function(client, bufnr)
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'td', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
@@ -50,55 +53,54 @@ end
 
 
 -- nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
-nvim_lsp.tsserver.setup {
-  on_attach = on_attach,
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
-  cmd = { "typescript-language-server", "--stdio" },
-  capabilities = capabilities,
-  root_dir = require('lspconfig').util.root_pattern('.git'),
-  flags = {
-    debounce_text_changes = 500,
-    allow_incremental_sync = true
-  }
-}
+nvim_lsp.tsserver.setup (
+  coq.lsp_ensure_capabilities(
+    {
+      on_attach = on_attach,
+      filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
+      cmd = { "typescript-language-server", "--stdio" },
+      root_dir = require('lspconfig').util.root_pattern('.git'),
+      flags = {
+        debounce_text_changes = 500,
+        allow_incremental_sync = true
+      }
+    }
+  )
+)
+nvim_lsp.cssls.setup(coq.lsp_ensure_capabilities( {
+      flags = { debounce_text_changes = 500 }
+  }) )
 
-nvim_lsp.cssls.setup({
-  capabilities = capabilities,
-  flags = { debounce_text_changes = 500 }
-})
+nvim_lsp.sumneko_lua.setup ( coq.lsp_ensure_capabilities( {
+      on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+      end,
+      settings = {
+        Lua = {
+          diagnostics = {
+            -- Get the language server to recognize the `vim` global
+            globals = { 'vim' },
+          },
 
-nvim_lsp.sumneko_lua.setup {
-  capabilities = capabilities,
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-  end,
-  settings = {
-    Lua = {
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = { 'vim' },
+          workspace = {
+            -- Make the server aware of Neovim runtime files
+            library = vim.api.nvim_get_runtime_file("", true),
+            checkThirdParty = false
+          },
+        },
       },
+    }
+  )  )
 
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false
-      },
-    },
-  },
-}
-
-nvim_lsp.dartls.setup {
-  capabilities = capabilities,
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-  end,
-}
-
-
+nvim_lsp.dartls.setup ( coq.lsp_ensure_capabilities( {
+      filetypes = { "dart" },
+      on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+      end,
+    }
+    )
+  )
 --
 -- Nvim-cmp
 --
@@ -115,7 +117,7 @@ cmp.setup {
 			  cmp.TriggerEvent.TextChanged
 		  },
 		  completeopt = "menuone,noinsert,noselect",
-		  keyword_length = 2,
+		  keyword_length = 1,
   },
   mapping = {
 --    ['<C-p>'] = cmp.mapping.select_prev_item(),

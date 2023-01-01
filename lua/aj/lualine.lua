@@ -1,15 +1,14 @@
-local function getBufName()
-  vim.g["myVar"] =  vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
+function GetVpnStatus()
+  local totalLinesString = vim.fn.system('ps -u root | grep -G "sudo -A /Applications/Pritunl.app/Contents/Resources/pritunl-openvpn" | wc -l');
+  local totalLinesCount = tonumber(totalLinesString);
+
+  if (totalLinesCount >= 1) then
+    return 'Connected VPN';
+  end;
+  return 'Disconnected';
+
 end
 
-
-vim.api.nvim_create_autocmd(
-  {'BufEnter'},
-  {
-    pattern = {"*"},
-    callback = getBufName
-  }
-)
 
 require('lualine').setup {
   options = {

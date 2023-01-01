@@ -46,13 +46,21 @@ Plug 'haishanh/night-owl.vim'
 Plug ('glepnir/lspsaga.nvim', {['branch'] = 'main' })
 Plug 'natecraddock/sessions.nvim'
 Plug 'vijaymarupudi/nvim-fzf'
-Plug 'MunifTanjim/nui.nvim'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'stevearc/dressing.nvim'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'windwp/nvim-ts-autotag'
+-- Plug 'akinsho/flutter-tools.nvim'
+Plug 'lervag/wiki-ft.vim'
+Plug 'lervag/wiki.vim'
+Plug 'pwntester/octo.nvim'
+Plug 'arzg/vim-substrata'
+Plug 'ap/vim-css-color'
+Plug 'ms-jpq/coq_nvim'
 
 vim.call('plug#end')
 
+vim.cmd('set termguicolors')
 vim.cmd('colorscheme nord')
 vim.opt.background = 'dark'
 
@@ -122,6 +130,17 @@ vim.cmd[[
 
 ]]
 
+
+--wiki customization
+vim.cmd[[
+  let g:wiki_root = '~/vimwiki'
+]]
+
+--vimwiki customization
+vim.cmd[[
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+]]
 
 --fugitive vars
 vim.cmd[[ let g:fugitive_pty = 0 ]]
