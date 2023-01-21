@@ -57,6 +57,8 @@ Plug 'pwntester/octo.nvim'
 Plug 'arzg/vim-substrata'
 Plug 'ap/vim-css-color'
 Plug 'ms-jpq/coq_nvim'
+Plug "kkharji/sqlite.lua"
+Plug 'mrjones2014/legendary.nvim'
 
 vim.call('plug#end')
 
@@ -101,7 +103,7 @@ if (has("termguicolors"))
 endif
 
 let g:fern#renderer = "nerdfont"
-let g:fern#default_hidden = 0
+let g:fern#default_hidden = 1
 
 let g:airline_theme = "nord_minimal"
 

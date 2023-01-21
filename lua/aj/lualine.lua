@@ -3,9 +3,9 @@ function GetVpnStatus()
   local totalLinesCount = tonumber(totalLinesString);
 
   if (totalLinesCount >= 1) then
-    return 'Connected VPN';
+    return '嬨Connected VPN';
   end;
-  return 'Disconnected';
+  return '嬨Disconnected';
 
 end
 
@@ -33,7 +33,7 @@ require('lualine').setup {
     lualine_a = {'mode'},
     lualine_b = {},
     lualine_c = {'branch', 'diff', 'diagnostics'},
-    lualine_x = {'filename','filetype'},
+    lualine_x = {{ 'filename', path = 1, file_status = true }, 'filetype'},
     lualine_y = {},
     lualine_z = {'location'}
   },
@@ -42,9 +42,6 @@ require('lualine').setup {
   },
   tabline = {},
   winbar = {},
-  inactive_winbar = {
-    lualine_c = {{ 'filename', path = 1, file_status = true }},
-  },
   extensions = {}
 }
 
