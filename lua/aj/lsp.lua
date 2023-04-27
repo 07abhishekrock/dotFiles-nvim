@@ -60,7 +60,7 @@ nvim_lsp.tsserver.setup (
       on_attach = on_attach,
       filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
       cmd = { "typescript-language-server", "--stdio" },
-      root_dir = require('lspconfig').util.root_pattern('.git'),
+      root_dir = require('lspconfig').util.root_pattern({ 'pnpm-lock.yaml', 'package-lock.json', '.git' }),
       flags = {
         debounce_text_changes = 500,
         allow_incremental_sync = true
@@ -68,6 +68,32 @@ nvim_lsp.tsserver.setup (
     }
   )
 )
+
+--only attaching this here to ensure svelte works out of the box, has some issues with null_ls setup
+nvim_lsp.eslint.setup(coq.lsp_ensure_capabilities( {
+      flags = { debounce_text_changes = 500 },
+      filetypes = {"svelte"},
+      on_attach = function(client, bufnr)
+
+        client.server_capabilities.document_formatting = true
+
+        if client.server_capabilities.document_formatting then
+
+          local au_lsp = vim.api.nvim_create_augroup("eslint_lsp", { clear = true })
+          vim.api.nvim_create_autocmd("BufWritePre", {
+              pattern = {"*.svelte"},
+              callback = function()
+                vim.cmd('silent! :EslintFixAll')
+              end,
+              group = au_lsp,
+            })
+
+        end
+
+      end,
+  } ))
+
+
 nvim_lsp.cssls.setup(coq.lsp_ensure_capabilities( {
       flags = { debounce_text_changes = 500 }
   }) )
@@ -92,6 +118,20 @@ nvim_lsp.sumneko_lua.setup ( coq.lsp_ensure_capabilities( {
       },
     }
   )  )
+
+nvim_lsp.jsonls.setup(coq.lsp_ensure_capabilities( {
+      filetypes = {"json"},
+      on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+      end,
+  } ))
+
+nvim_lsp.svelte.setup(coq.lsp_ensure_capabilities( {
+      filetypes = {"svelte"},
+      on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+      end,
+  } ))
 
 nvim_lsp.dartls.setup ( coq.lsp_ensure_capabilities( {
       filetypes = { "dart" },
@@ -182,3 +222,5 @@ require('fzf-lua').setup({
   }
 })
 
+
+require('fidget').setup();

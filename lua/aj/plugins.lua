@@ -59,7 +59,10 @@ Plug 'ap/vim-css-color'
 Plug 'ms-jpq/coq_nvim'
 Plug "kkharji/sqlite.lua"
 Plug 'mrjones2014/legendary.nvim'
-
+Plug 'j-hui/fidget.nvim'
+Plug 'airblade/vim-rooter'
+Plug 'tjdevries/express_line.nvim'
+Plug ('iamcco/markdown-preview.nvim', { ["do"] = 'cd app && yarn install' })
 vim.call('plug#end')
 
 vim.cmd('set termguicolors')
@@ -104,8 +107,11 @@ endif
 
 let g:fern#renderer = "nerdfont"
 let g:fern#default_hidden = 1
+let g:fern#default_exclude = '^\.DS_Store$'
 
 let g:airline_theme = "nord_minimal"
+
+let g:rooter_patterns = [ '.git', 'pnpm-lock.yaml', 'package-lock.json' ]
 
 ]]
 

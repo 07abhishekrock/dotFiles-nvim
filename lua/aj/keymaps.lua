@@ -12,3 +12,7 @@ command! -nargs=* Gcpr silent !source ~/.config/custom/bash/git_cmds.sh && githu
 command! -nargs=0 LspClear silent !rm -Rf  /Users/abhishekjha/.local/state/nvim/lsp.log
 ]]
 
+vim.cmd [[
+  :tnoremap <C-q> <C-\><C-n>
+]]
+

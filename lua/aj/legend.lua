@@ -13,7 +13,9 @@ require('legendary').setup({
       icon = "",
        keymaps = {
         { '[y', '<plug>(YoinkRotateBack)', description = 'Cycle clipboard backward' , opts = {silent = false, noremap = false}, mode='n', },
-        { ']y', '<plug>(YoinkRotateForward)', description = 'Cycle clipboard forward', opts = {silent = false, noremap = false} , mode='n'},
+        { '[y', '<plug>(YoinkRotateBack)', description = 'Cycle clipboard backward' , opts = {silent = false, noremap = false}, mode='n', },
+        { 'p', '<plug>(YoinkPaste_p)', description = 'paste' , opts = {silent = false, noremap = false}, mode='n', },
+        { 'P', '<plug>(YoinkPaste_P)', description = 'paste P' , opts = {silent = false, noremap = false}, mode='n', },
       }
     },
     {
