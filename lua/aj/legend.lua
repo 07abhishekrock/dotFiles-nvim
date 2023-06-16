@@ -23,19 +23,13 @@ require('legendary').setup({
       description = 'Search through your files',
       icon = '',
       keymaps = {
-        {'<leader>p', ":lua require'fzf-lua'.files({ prompt='LS>>',  cwd=git_root() })<CR>", description = "Search through files (git)" , opts={silent = false}},
-        {'<leader>z', ":lua require('fzf-lua').buffers()<CR>", description = "Search through buffers"},
+        {'<leader>p', ":lua require'telescope.builtin'.find_files{}<CR>", description = "Search through files (git)" , opts={silent = false}},
+        {'<leader>z', ":lua require'telescope.builtin'.buffers{}<CR>", description = "Search through buffers"},
+        {'<leader>g', ":lua require'telescope.builtin'.live_grep{}<CR>", description = "Search through buffers"},
       },
     },
   },
   commands = {
     -- easily create user commands
-    {
-      ':Gco',
-      function()
-        require('fzf-lua').git_branches()
-      end,
-      description = 'Checkout git branch',
-    },
   },
 })

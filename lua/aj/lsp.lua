@@ -98,6 +98,10 @@ nvim_lsp.cssls.setup(coq.lsp_ensure_capabilities( {
       flags = { debounce_text_changes = 500 }
   }) )
 
+nvim_lsp.tailwindcss.setup(coq.lsp_ensure_capabilities( {
+      flags = { debounce_text_changes = 1000 }
+  } ))
+
 nvim_lsp.sumneko_lua.setup ( coq.lsp_ensure_capabilities( {
       on_attach = function(client, bufnr)
         on_attach(client, bufnr)
@@ -213,14 +217,29 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-
-require('fzf-lua').setup({
-  winopts = {
-    preview = {
-     layout = 'vertical'
+require('telescope').setup{
+  defaults = {
+    -- Default configuration for telescope goes here:
+    -- config_key = value,
+    mappings = {
     }
+  },
+  pickers = {
+    -- Default configuration for builtin pickers goes here:
+    -- picker_name = {
+    --   picker_config_key = value,
+    --   ...
+    -- }
+    -- Now the picker_config_key will be applied every time you call this
+    -- builtin picker
+  },
+  extensions = {
+    -- Your extension configuration goes here:
+    -- extension_name = {
+    --   extension_config_key = value,
+    -- }
+    -- please take a look at the readme of the extension you want to configure
   }
-})
-
+}
 
 require('fidget').setup();
