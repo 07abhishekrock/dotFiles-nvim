@@ -10,6 +10,11 @@ command! -nargs=0 VpnDisconnect !source ~/vpn/.connect_rc.zsh && disconnect
 command! -nargs=1 VpnConnect !source ~/vpn/.connect_rc.zsh && connect <args>
 command! -nargs=* Gcpr silent !source ~/.config/custom/bash/git_cmds.sh && githubprcopy <args>
 command! -nargs=0 LspClear silent !rm -Rf  /Users/abhishekjha/.local/state/nvim/lsp.log
+
+command! -nargs=0 JdtUpdateConfig lua require('jdtls').update_project_config()
+command! -nargs=0 JdtJol lua require('jdtls').jol()
+command! -nargs=0 JdtBytecode lua require('jdtls').javap()
+command! -nargs=0 JdtJshell lua require('jdtls').jshell()
 ]]
 
 vim.cmd [[

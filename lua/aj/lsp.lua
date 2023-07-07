@@ -10,12 +10,16 @@ local coq = require('coq');
 local lspkind = require('lspkind')
 local luasnip = require('luasnip')
 
+
+require("nvim-lsp-installer").setup {}
+
 --
 -- Lspconfig
 --
 
 -- Use an on_attach function to only map the following keys after
 -- the language server attaches to the current buffer
+
 
 local on_attach = function(client, bufnr)
 
@@ -219,6 +223,10 @@ end
 
 require('telescope').setup{
   defaults = {
+    sorting_strategy = "ascending",
+    layout_config = {
+      prompt_position = "top"  -- search bar at the top
+    },
     -- Default configuration for telescope goes here:
     -- config_key = value,
     mappings = {

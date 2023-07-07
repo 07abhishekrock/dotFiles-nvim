@@ -2,7 +2,7 @@ require('legendary').setup({
   keymaps = {
 
     -- map keys to a command
-    { '<leader><Left>', ':lua GitVersions()<CR>', description = 'Load Past Versions'},
+    { '<leader><Left>', ':lua GetFileCommitHistory()<CR>', description = 'Load Past Versions'},
     { '<leader><leader>', '<C-^>', description = 'Jump to Prev File'},
     { '<leader>b', '<C-o>', description = 'Jump to last cursor'},
     { '<C-b>', ':execute \'Fern \' . RootDirectory() . \' -reveal=%:p -drawer -toggle\'<CR>', description = 'Toggle Fern' , opts= {silent = true}},
@@ -23,8 +23,8 @@ require('legendary').setup({
       description = 'Search through your files',
       icon = '',
       keymaps = {
-        {'<leader>p', ":lua require'telescope.builtin'.find_files{}<CR>", description = "Search through files (git)" , opts={silent = false}},
-        {'<leader>z', ":lua require'telescope.builtin'.buffers{}<CR>", description = "Search through buffers"},
+        {'<leader>p', ":lua require'telescope.builtin'.find_files{hidden=true}<CR>", description = "Search through files (git)" , opts={silent = false}},
+        {'<leader>z', ":lua require'telescope.builtin'.buffers{sort_mru = true}<CR>", description = "Search through buffers"},
         {'<leader>g', ":lua require'telescope.builtin'.live_grep{}<CR>", description = "Search through buffers"},
       },
     },

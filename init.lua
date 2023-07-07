@@ -13,6 +13,7 @@ require('aj.lualine')
 require('aj.customShell')
 require('aj.flutter-setup')
 require('aj.legend')
+require('aj.luasnip')
 -- require('aj.express-line')
 -- require('aj.lsp-saga')
 

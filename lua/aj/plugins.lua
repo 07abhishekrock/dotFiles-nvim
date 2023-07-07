@@ -49,6 +49,7 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'stevearc/dressing.nvim'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'windwp/nvim-ts-autotag'
+Plug ('L3MON4D3/LuaSnip', {["tag"]= "v1.*", [ "do" ]= 'make install_jsregexp'})
 -- Plug 'akinsho/flutter-tools.nvim'
 Plug 'lervag/wiki-ft.vim'
 Plug 'lervag/wiki.vim'
@@ -62,6 +63,11 @@ Plug 'j-hui/fidget.nvim'
 Plug 'airblade/vim-rooter'
 Plug 'tjdevries/express_line.nvim'
 Plug ('iamcco/markdown-preview.nvim', { ["do"] = 'cd app && yarn install' })
+Plug 'mfussenegger/nvim-jdtls'
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'kkoomen/vim-doge'
+Plug 'vim-scripts/loremipsum'
+
 vim.call('plug#end')
 
 vim.cmd('set termguicolors')
