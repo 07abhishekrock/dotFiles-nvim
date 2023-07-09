@@ -128,7 +128,12 @@ local generator = function(_window, buffer)
 				"BufRead",
 				function(_)
 					local completeExtensionWithIcon = string.format(" %s %s " ,extensions.file_icon(_,buffer), buffer.extension)
+
+					if not buffer.extension then
+						completeExtensionWithIcon = string.format("%s", extensions.file_icon(_, buffer));
+					end
 					return sections.highlight('PMenuSel', completeExtensionWithIcon)(_, buffer)
+
 				end
 		))
 

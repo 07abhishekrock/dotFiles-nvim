@@ -65,7 +65,15 @@ require('lazy').setup({
 	{
 		'neoclide/coc.nvim',
 		branch = 'release'
-	}
+	},
+	{
+		"L3MON4D3/LuaSnip",
+		-- follow latest release.
+		version = "1.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+		-- install jsregexp (optional!).
+		build = "make install_jsregexp"
+	},
+	"benfowler/telescope-luasnip.nvim"
 })
 
 
@@ -80,3 +88,5 @@ require("aj.commands");
 require('aj.session-manager');
 require('aj.lsp.init');
 require('aj.treesitter');
+require('aj.luasnip.init');
+require('aj.telescope');
