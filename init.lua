@@ -73,7 +73,8 @@ require('lazy').setup({
 		-- install jsregexp (optional!).
 		build = "make install_jsregexp"
 	},
-	"benfowler/telescope-luasnip.nvim"
+	"benfowler/telescope-luasnip.nvim",
+	"tpope/vim-fugitive"
 })
 
 
