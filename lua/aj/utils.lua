@@ -1,4 +1,6 @@
-function find_qf(type)
+local M = {};
+
+M.find_qf = function(type)
   local wininfo = vim.fn.getwininfo()
   local win_tbl = {}
   for _, win in pairs(wininfo) do
@@ -20,7 +22,7 @@ end
 -- toggle quickfix/loclist on/off
 -- type='q': qf toggle and send to bottom
 -- type='l': loclist toggle (all windows)
-function toggle_qf(type)
+M.toggle_qf = function(type)
   local windows = find_qf(type)
   if #windows > 0 then
     -- hide all visible windows
@@ -39,7 +41,7 @@ end
 
 
 -- open quickfix if not empty
-function open_qf()
+M.open_qf = function()
   local qf_name = 'quickfix'
   local qf_empty = function() return vim.tbl_isempty(vim.fn.getqflist()) end
   if not qf_empty() then
@@ -52,7 +54,7 @@ end
 
 -- enum all non-qf windows and open
 -- loclist on all windows where not empty
-function open_loclist_all()
+M.open_loclist_all = function()
   local wininfo = vim.fn.getwininfo()
   local qf_name = 'loclist'
   local qf_empty = function(winnr) return vim.tbl_isempty(vim.fn.getloclist(winnr)) end
@@ -69,23 +71,23 @@ function open_loclist_all()
   end
 end
 
-function _echo_multiline(msg)
+M._echo_multiline = function(msg)
   for _, s in ipairs(vim.fn.split(msg, "\n")) do
     vim.cmd("echom '" .. s:gsub("'", "''").."'")
   end
 end
 
-function shell_error()
+M.shell_error = function()
   return vim.v.shell_error ~= 0
 end
 
-function info(msg)
+M.info = function(msg)
   vim.cmd('echohl Directory')
   _echo_multiline(msg)
   vim.cmd('echohl None')
 end
 
-function git_root(cwd, noerr)
+M.git_root = function(cwd, noerr)
   local cmd = { "git", "rev-parse", "--show-toplevel" }
   if cwd then
     table.insert(cmd, 2, "-C")
@@ -99,3 +101,27 @@ function git_root(cwd, noerr)
   print(output[1])
   return output[1]
 end
+
+M.get_current_dir = function()
+	local recordedDir = vim.g.currentDir;
+
+	if(not recordedDir) then
+		vim.g.currentDir = vim.fn.getcwd();
+	end
+
+	return vim.g.currentDir;
+end
+
+M.stringSplit = function(inputstr, sep)
+   if sep == nil then
+      sep = "%s"
+   end
+   local t={}
+   for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+      table.insert(t, str)
+   end
+   return t
+end
+
+return M
+

@@ -17,13 +17,13 @@ set shiftwidth=2
 set updatetime=100
 set nocompatible
 set foldlevelstart=99
+set noautochdir
 ]]
 
 o.relativenumber = true
+o.number = true
 wo.wrap = false
 o.smartcase = true
 o.laststatus = 2
 
 o.clipboard = "unnamedplus"
-
-

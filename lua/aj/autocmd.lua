@@ -1,39 +1,24 @@
--- local api = vim.api
+local Utils = require('aj.utils');
 
--- local vimEnterGroup = api.nvim_create_augroup("vim-enter-group", { clear = true })
--- api.nvim_create_autocmd("VimEnter", {
---   command = "silent! if @% == '' | :GG | endif<CR>",
---   group = vimEnterGroup
--- })
+local function recordCurrentDirectoryAndSaveAsRoot()
+	local dir = Utils.git_root();
 
-local function changeDirToGitRoot()
-  local dir = git_root()
+	if(not dir) then
+		vim.g.currentDir = vim.fn.getcwd();
+	else
+		vim.g.currentDir = dir;
+	end
 
-  if dir then
-    local cdCmd = string.format( "cd %s", dir);
-    vim.cmd(cdCmd)
-  end
+	local cdCmd = string.format( "cd %s", vim.g.currentDir);
+	vim.cmd(cdCmd)
 
-end
-
-local function formatDartFile()
-  vim.cmd("silent !dart format %")
 end
 
 vim.api.nvim_create_autocmd(
   {'VimEnter'},
   {
     pattern = {"*"},
-    callback = changeDirToGitRoot
-  }
-)
-
-
-vim.api.nvim_create_autocmd(
-  {'BufWritePost'},
-  {
-    pattern = { "*.dart" },
-    callback = formatDartFile
+    callback = recordCurrentDirectoryAndSaveAsRoot
   }
 )
 
