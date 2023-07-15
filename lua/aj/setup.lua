@@ -24,6 +24,6 @@ o.relativenumber = true
 o.number = true
 wo.wrap = false
 o.smartcase = true
-o.laststatus = 2
+o.laststatus = 3
 
 o.clipboard = "unnamedplus"

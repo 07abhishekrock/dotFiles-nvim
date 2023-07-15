@@ -83,6 +83,7 @@ vim.cmd('colorscheme nord')
 vim.opt.background = 'dark'
 
 require('aj.setup');
+require('aj.theme');
 require("aj.keymaps");
 require("aj.express-line");
 require("aj.commands");

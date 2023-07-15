@@ -19,11 +19,57 @@ M.find_qf = function(type)
   return win_tbl
 end
 
+local function _echo_multiline(msg)
+  for _, s in ipairs(vim.fn.split(msg, "\n")) do
+    vim.cmd("echom '" .. s:gsub("'", "''").."'")
+  end
+end
+
+local function shell_error()
+  return vim.v.shell_error ~= 0
+end
+
+local function info(msg)
+  vim.cmd('echohl Directory')
+  _echo_multiline(msg)
+  vim.cmd('echohl None')
+end
+
+local function open_qf()
+  local qf_name = 'quickfix'
+  local qf_empty = function() return vim.tbl_isempty(vim.fn.getqflist()) end
+  if not qf_empty() then
+    vim.cmd('copen')
+    vim.cmd('wincmd J')
+  else
+    print(string.format("%s is empty.", qf_name))
+  end
+end
+
+-- enum all non-qf windows and open
+-- loclist on all windows where not empty
+local function open_loclist_all()
+  local wininfo = vim.fn.getwininfo()
+  local qf_name = 'loclist'
+  local qf_empty = function(winnr) return vim.tbl_isempty(vim.fn.getloclist(winnr)) end
+  for _, win in pairs(wininfo) do
+      if win['quickfix'] == 0 then
+        if not qf_empty(win['winnr']) then
+          -- switch active window before ':lopen'
+          vim.api.nvim_set_current_win(win['winid'])
+          vim.cmd('lopen')
+        else
+          print(string.format("%s is empty.", qf_name))
+        end
+      end
+  end
+end
+
 -- toggle quickfix/loclist on/off
 -- type='q': qf toggle and send to bottom
 -- type='l': loclist toggle (all windows)
 M.toggle_qf = function(type)
-  local windows = find_qf(type)
+  local windows = M.find_qf(type)
   if #windows > 0 then
     -- hide all visible windows
     for _, win in ipairs(windows) do
@@ -32,9 +78,9 @@ M.toggle_qf = function(type)
   else
     -- no windows are visible, attempt to open
     if type == 'l' then
-      open_loclist_all()
+      M.open_loclist_all()
     else
-      open_qf()
+      M.open_qf()
     end
   end
 end

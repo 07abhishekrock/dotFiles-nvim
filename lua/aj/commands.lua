@@ -1,6 +1,6 @@
 vim.cmd [[
 
-	 autocmd FileType qf nnoremap <buffer> <CR> <CR>:lua toggle_qf('q')<CR>
+	autocmd FileType qf nnoremap <buffer> <CR> <CR>:lua require('aj.utils').toggle_qf('q')<CR>
 	command! -nargs=* F copen | AsyncRun rg --vimgrep -S <args>
 	command! -nargs=1  -complete=file Tsc copen | AsyncRun tsc -p <args>/tsconfig.json --pretty false | rg -N '\((\d*),(\d*)\)' -r ':$1:$2'
 	command! -nargs=0 VpnStatus lua vim.notify(GetVpnStatus())

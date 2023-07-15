@@ -11,6 +11,9 @@ function Status(window, buffer)
 	local info = vim.api.nvim_eval('get(b:, \'coc_diagnostic_info\', {})')
 	local is_error = false;
 	local total_diagnostics_count = 0;
+	local bufName = vim.api.nvim_buf_get_name(0);
+
+	if(bufName ~= buffer.name) then return '%f' end;
 
 	for v,w in pairs(info) do
 
