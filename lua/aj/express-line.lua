@@ -7,6 +7,13 @@ vim.cmd[[
 	highlight StatusBarWarn cterm=bold,reverse guifg=#ebcb8b  guibg=#434c5e 
 ]]
 
+local function modified_status()
+	if(vim.bo.modified) then
+		return ''
+	end
+	return ''
+end
+
 function Status(window, buffer)
 	local info = vim.api.nvim_eval('get(b:, \'coc_diagnostic_info\', {})')
 	local is_error = false;
@@ -31,15 +38,16 @@ function Status(window, buffer)
 
 	end
 
+
 	if total_diagnostics_count > 0 then
 		if is_error then
-			return sections.highlight('StatusBarError', string.format( "%%f %d ", total_diagnostics_count))(window, buffer);
+			return sections.highlight('StatusBarError', string.format("%%f %d %s ", total_diagnostics_count, modified_status() ))(window, buffer);
 		else
-			return sections.highlight('StatusBarWarn', string.format("%%f %d " ,total_diagnostics_count ))(window, buffer);
+			return sections.highlight('StatusBarWarn', string.format("%%f %d %s " , total_diagnostics_count, modified_status()))(window, buffer);
 		end
 	end
 
-	return '%f'
+	return string.format('%%f %s', modified_status())
 end
 
 local generator = function(_window, buffer)
@@ -133,7 +141,7 @@ local generator = function(_window, buffer)
 					local completeExtensionWithIcon = string.format(" %s %s " ,extensions.file_icon(_,buffer), buffer.extension)
 
 					if not buffer.extension then
-						completeExtensionWithIcon = string.format("%s", extensions.file_icon(_, buffer));
+						completeExtensionWithIcon = string.format("%s",extensions.file_icon(_, buffer));
 					end
 					return sections.highlight('PMenuSel', completeExtensionWithIcon)(_, buffer)
 

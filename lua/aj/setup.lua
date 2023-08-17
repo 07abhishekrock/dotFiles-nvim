@@ -18,6 +18,7 @@ set updatetime=100
 set nocompatible
 set foldlevelstart=99
 set noautochdir
+set noexpandtab
 ]]
 
 o.relativenumber = true

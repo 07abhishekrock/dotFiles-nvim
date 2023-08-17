@@ -66,6 +66,7 @@ require('lazy').setup({
 		'neoclide/coc.nvim',
 		branch = 'release'
 	},
+	'milch/vim-fastlane',
 	{
 		"L3MON4D3/LuaSnip",
 		-- follow latest release.
